@@ -12,7 +12,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 
-import { Person } from 'src/app/components/landing-page/landing/landing.component';
+import { Person } from '../../model/person.model';
 
 @Component({
   selector: 'app-dialog',
@@ -41,6 +41,13 @@ export class DialogComponent {
     @Inject(MAT_DIALOG_DATA) private person: Person,
     private dialogRef: MatDialogRef<DialogComponent>
   ) {}
+
+  getErrorMessage(formContol: string) {
+    console.log(formContol);
+    if (this.form.controls[formContol].hasError('required')) {
+      return `لطفا ${formContol} را وارد کنید`;
+    }
+  }
 
   ngOnInit() {}
 

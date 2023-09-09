@@ -2,21 +2,27 @@
 
   <h3 mat-dialog-title> ویرایش اطلاعات </h3>
 
-  <mat-dialog-content [formGroup]="form">
+  <mat-dialog-content [formGroup]="form" (ngSubmit)="save()">
 
       <mat-form-field>
 
           <input matInput
                  placeholder="نام"
                  formControlName="نام">
-
+                 <mat-error
+                 *ngIf="!form.get('نام').valid && form.get('نام').touched">
+                 {{getErrorMessage('نام')}}
+               </mat-error>
       </mat-form-field>
       <mat-form-field>
 
           <input matInput
                  placeholder="نام خانوادگی"
                  formControlName="نام خانوادگی">
-
+                 <mat-error class="color-red"
+                 *ngIf="!form.get('نام خانوادگی').valid && form.get('نام خانوادگی').touched">
+                 {{getErrorMessage('نام خانوادگی')}}
+               </mat-error>
       </mat-form-field>
       <mat-form-field>
 
@@ -26,17 +32,22 @@
                  max="99"
                  placeholder="سن"
                  formControlName="سن">
-
+                 <mat-error class="color-red"
+                 *ngIf="!form.get('سن').valid && form.get('سن').touched">
+                 سن بین 1 تا 99 است
+               </mat-error>
       </mat-form-field>
 
       <mat-form-field>
 
       <input matInput placeholder="شماره موبایل"
       type="number"
-                 min="09000000000"
-                 max="09999999999"
+                pattern="^(\\+98|0)?9\\d{9}$"
                 formControlName="شماره موبایل">
-
+                <mat-error
+                *ngIf="!form.get('شماره موبایل').valid && form.get('شماره موبایل').touched">
+                شماره موبایل را درست وارد کنید
+              </mat-error>
       </mat-form-field>
 
   </mat-dialog-content>
@@ -45,7 +56,7 @@
 
       <button mat-raised-button (click)="close()">لغو</button>
 
-      <button mat-raised-button color="primary" (click)="save()">ثبت</button>
+      <button type="submit" mat-raised-button [disabled]="!form.valid && form.touched" color="primary">ثبت</button>
 
   </mat-dialog-actions>
 

@@ -33,34 +33,8 @@ import {
   DialogComponent,
   openEditCourseDialog,
 } from 'src/app/shared/components/dialog/dialog.component';
-
-export interface Person {
-  'شماره پرونده': number;
-  نام: string;
-  'نام خانوادگی': string;
-  'شماره موبایل': string;
-  سن: number;
-}
-
-@Injectable()
-export class MyCustomPaginatorIntl implements MatPaginatorIntl {
-  changes = new Subject<void>();
-
-  firstPageLabel = `صفحه اول`;
-  itemsPerPageLabel = `تعداد در هر صفحه:`;
-  lastPageLabel = `صفحه آخر`;
-
-  nextPageLabel = 'صفحه بعدی';
-  previousPageLabel = 'صفحه قبلی';
-
-  getRangeLabel(page: number, pageSize: number, length: number): string {
-    if (length === 0) {
-      return `صفحه 1 از 1`;
-    }
-    const amountPages = Math.ceil(length / pageSize);
-    return `صفحه ${page + 1} از ${amountPages}`;
-  }
-}
+import { Person } from 'src/app/shared/model/person.model';
+import { MyCustomPaginatorIntl } from 'src/app/shared/model/paginator.model';
 
 @Component({
   selector: 'app-landing',
