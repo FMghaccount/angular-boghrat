@@ -1,0 +1,84 @@
+<div class="container">
+  <input
+    type="file"
+    class="file-input"
+    (change)="onFileSelected($event)"
+    #fileUpload
+  />
+  <div class="file-upload">
+    <button
+      mat-mini-fab
+      color="primary"
+      class="upload-btn"
+      (click)="fileUpload.click()"
+    >
+      <mat-icon>attach_file</mat-icon>
+    </button>
+    {{ file?.name || "فایلی انتخاب نشده است" }}
+  </div>
+</div>
+<div class="container">
+  <button (click)="correctInfo()" [disabled]="disableCorrectInfoButton" mat-raised-button color="primary">Correct Information</button>
+</div>
+<div class="container">
+  <p> میانگین سن: {{averageAge}}</p>
+</div>
+<div class="container" *ngIf="showTable">
+  <cdk-virtual-scroll-viewport
+    tvsItemSize="52"
+    headerHeight="56"
+    class="wrapper"
+  >
+    <table
+      dir="rtl"
+      mat-table
+      matSort
+      matSortActive="شماره پرونده"
+      matSortDirection="asc"
+      matSortDisableClear
+      [dataSource]="dataSource"
+      (matSortChange)="sortData($event)"
+      class="excel-table mat-elevation-z8"
+    >
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+
+      <ng-container matColumnDef="شماره پرونده">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>شماره پرونده</th>
+        <td mat-cell *matCellDef="let element">
+          {{ element["شماره پرونده"] }}
+        </td>
+      </ng-container>
+
+      <!-- Name Column -->
+      <ng-container matColumnDef="نام">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>نام</th>
+        <td mat-cell *matCellDef="let element">{{ element["نام"] }}</td>
+      </ng-container>
+
+      <!-- Weight Column -->
+      <ng-container matColumnDef="نام خانوادگی">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>نام خانوادگی</th>
+        <td mat-cell *matCellDef="let element">
+          {{ element["نام خانوادگی"] }}
+        </td>
+      </ng-container>
+
+      <!-- Symbol Column -->
+      <ng-container matColumnDef="شماره موبایل">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>شماره موبایل</th>
+        <td mat-cell *matCellDef="let element">
+          {{ element["شماره موبایل"] }}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="سن">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>سن</th>
+        <td mat-cell *matCellDef="let element">{{ element["سن"] }}</td>
+      </ng-container>
+    </table>
+  </cdk-virtual-scroll-viewport>
+  <div dir="ltr" class="mat-elevation-z8">
+    <mat-paginator></mat-paginator>
+  </div>
+</div>

@@ -1,0 +1,33 @@
+.container {
+  padding: 1.5rem;
+}
+
+table {
+  width: 100%;
+  table-layout: fixed;
+}
+
+app-fileupload {
+  direction: ltr;
+  float: right;
+}
+
+.excel-table{
+  tr:hover{
+    background-color: whitesmoke;
+    cursor: pointer;
+  }
+}
+
+.mat-column-id{
+  border-left: 1px solid #c5c5c5;
+}
+
+.file-input {
+  display: none;
+}
+
+.wrapper{
+  height: 300px;
+  overflow: auto;
+}

@@ -1,0 +1,35 @@
+/* You can add global styles to this file, and also import other style files */
+@import '@angular/material/theming';
+
+@font-face {
+  font-family: "iranyekan";
+
+  src: url("./assets/fonts/iranyekan/weight-400/iranyekanwebregularfanum.eot");
+
+  src: url("./assets/fonts/iranyekan/weight-400/iranyekanwebregularfanum.eot?#iefix")
+      format("embedded-opentype"),
+    url("./assets/fonts/iranyekan/weight-400/iranyekanwebregularfanum.ttf")
+      format("woff"),
+    url("./assets/fonts/iranyekan/weight-400/iranyekanwebregularfanum.woff")
+      format("truetype");
+
+  font-weight: normal;
+
+  font-style: normal;
+}
+
+$custom-typography: mat-typography-config(
+  $font-family: 'iranyekan',
+);
+
+@include angular-material-typography($custom-typography);
+
+html,
+body {
+  height: 100%;
+}
+body {
+  margin: 0;
+  direction: rtl;
+  overflow-x: hidden;
+}
