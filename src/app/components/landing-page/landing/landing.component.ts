@@ -9,6 +9,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import * as XLSX from 'xlsx';
 import {
+  MatRow,
   MatTableDataSource,
   MatTableModule,
   _MatTableDataSource,
@@ -19,14 +20,19 @@ import {
   MatPaginatorModule,
   PageEvent,
 } from '@angular/material/paginator';
-import { Subject } from 'rxjs';
+import { Subject, filter } from 'rxjs';
 import { MatSort, MatSortModule, Sort } from '@angular/material/sort';
-// import { CdkVirtualScrollViewport } from '@angular/cdk/scrolling';
 import { ScrollingModule } from '@angular/cdk/scrolling';
 import {
   TableVirtualScrollDataSource,
   TableVirtualScrollModule,
 } from 'ng-table-virtual-scroll';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+
+import {
+  DialogComponent,
+  openEditCourseDialog,
+} from 'src/app/shared/components/dialog/dialog.component';
 
 export interface Person {
   'شماره پرونده': number;
@@ -68,13 +74,12 @@ export class MyCustomPaginatorIntl implements MatPaginatorIntl {
     MatSortModule,
     ScrollingModule,
     TableVirtualScrollModule,
+    MatDialogModule,
+    DialogComponent,
   ],
   templateUrl: './landing.component.html',
   styleUrls: ['./landing.component.scss'],
-  providers: [
-    // CdkVirtualScrollViewport,
-    { provide: MatPaginatorIntl, useClass: MyCustomPaginatorIntl },
-  ],
+  providers: [{ provide: MatPaginatorIntl, useClass: MyCustomPaginatorIntl }],
 })
 export class LandingComponent {
   file: File;
@@ -94,7 +99,7 @@ export class LandingComponent {
     'سن',
   ];
 
-  constructor(private ref: ChangeDetectorRef) {}
+  constructor(private ref: ChangeDetectorRef, private dialog: MatDialog) {}
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
@@ -197,19 +202,27 @@ export class LandingComponent {
     this.disableCorrectInfoButton = true;
   }
 
-  ngAfterViewInit() {
-    // this.paginator.length = 27230;
-    // this.dataSource.paginator = this.paginator;
-    // this.dataSource.sort = this.sort;
-    // this.sort.sortChange.subscribe(() => (this.paginator.pageIndex = 0));
-    // this.dataSource.paginator.page.subscribe((pageEvent: PageEvent) => {
-    //   const startIndex = pageEvent.pageIndex * pageEvent.pageSize;
-    //   const endIndex = startIndex + pageEvent.pageSize;
-    //   const itemsShowed = this.dataSource.filteredData.slice(
-    //     startIndex,
-    //     endIndex
-    //   );
-    //   console.log(itemsShowed);
-    // });
+  editPerson(row: Person) {
+    let foundItemIndex = this.dataSource
+      ._orderData(this.dataSource.filteredData)
+      .findIndex((item) => {
+        return +item['شماره پرونده'] === +row['شماره پرونده'];
+      });
+    openEditCourseDialog(this.dialog, row)
+      .pipe(filter((person) => !!person))
+      .subscribe((person: Person) => {
+        this.dataSource._orderData(this.dataSource.filteredData)[
+          foundItemIndex
+        ]['نام'] = person['نام'];
+        this.dataSource._orderData(this.dataSource.filteredData)[
+          foundItemIndex
+        ]['نام خانوادگی'] = person['نام خانوادگی'];
+        this.dataSource._orderData(this.dataSource.filteredData)[
+          foundItemIndex
+        ]['شماره موبایل'] = person['شماره موبایل'];
+        this.dataSource._orderData(this.dataSource.filteredData)[
+          foundItemIndex
+        ]['سن'] = person['سن'];
+      });
   }
 }

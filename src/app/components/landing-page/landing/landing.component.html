@@ -17,10 +17,10 @@
     {{ file?.name || "فایلی انتخاب نشده است" }}
   </div>
 </div>
-<div class="container">
+<div class="container" *ngIf="showTable">
   <button (click)="correctInfo()" [disabled]="disableCorrectInfoButton" mat-raised-button color="primary">Correct Information</button>
 </div>
-<div class="container">
+<div class="container" *ngIf="showTable">
   <p> میانگین سن: {{averageAge}}</p>
 </div>
 <div class="container" *ngIf="showTable">
@@ -41,7 +41,7 @@
       class="excel-table mat-elevation-z8"
     >
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+      <tr mat-row (click)="editPerson(row)" *matRowDef="let row; columns: displayedColumns"></tr>
 
       <ng-container matColumnDef="شماره پرونده">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>شماره پرونده</th>
