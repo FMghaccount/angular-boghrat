@@ -2,7 +2,7 @@
 
   <h3 mat-dialog-title> ویرایش اطلاعات </h3>
 
-  <mat-dialog-content [formGroup]="form" (ngSubmit)="save()">
+  <mat-dialog-content [formGroup]="form">
 
       <mat-form-field>
 
@@ -42,7 +42,7 @@
 
       <input matInput placeholder="شماره موبایل"
       type="number"
-                pattern="^(\\+98|0)?9\\d{9}$"
+                min="09000000000"
                 formControlName="شماره موبایل">
                 <mat-error
                 *ngIf="!form.get('شماره موبایل').valid && form.get('شماره موبایل').touched">
@@ -56,7 +56,7 @@
 
       <button mat-raised-button (click)="close()">لغو</button>
 
-      <button type="submit" mat-raised-button [disabled]="!form.valid && form.touched" color="primary">ثبت</button>
+      <button (click)="save()" mat-raised-button [disabled]="!form.valid && form.touched" color="primary">ثبت</button>
 
   </mat-dialog-actions>
 

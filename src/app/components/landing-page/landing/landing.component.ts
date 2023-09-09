@@ -142,6 +142,7 @@ export class LandingComponent {
   }
 
   correctInfo() {
+    const regex = new RegExp('^(\\+98|0)?9\\d{9}$');
     this.excelData = this.dataSource
       ._orderData(this.dataSource.filteredData)
       .filter((item) => {
@@ -150,7 +151,7 @@ export class LandingComponent {
           item['سن'] < 100 &&
           item['نام'].length > 2 &&
           item['نام خانوادگی'].length > 2 &&
-          item['شماره موبایل'].match('^(\\+98|0)?9\\d{9}$')
+          regex.test(item['شماره موبایل'])
         );
       });
 
@@ -173,7 +174,7 @@ export class LandingComponent {
       0
     );
     this.averageAge = average / 1000;
-    this.disableCorrectInfoButton = true;
+    // this.disableCorrectInfoButton = true;
   }
 
   editPerson(row: Person) {
@@ -193,10 +194,10 @@ export class LandingComponent {
         ]['نام خانوادگی'] = person['نام خانوادگی'];
         this.dataSource._orderData(this.dataSource.filteredData)[
           foundItemIndex
-        ]['شماره موبایل'] = person['شماره موبایل'];
+        ]['شماره موبایل'] = +person['شماره موبایل'];
         this.dataSource._orderData(this.dataSource.filteredData)[
           foundItemIndex
-        ]['سن'] = person['سن'];
+        ]['سن'] = +person['سن'];
       });
   }
 }
